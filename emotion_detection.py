@@ -1,25 +1,22 @@
-def emotion_detector(text_to_analyze):
-    """
-    This function simulates emotion detection from text.
-    """
+import requests
 
-    # Simulated response (como si viniera de Watson)
-    emotions = {
-        "anger": 0.1,
-        "disgust": 0.05,
-        "fear": 0.1,
-        "joy": 0.7,
-        "sadness": 0.05
+def emotion_detector(text_to_analyse):
+    url = "https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict"
+    
+    headers = {
+        "Content-Type": "application/json"
     }
-
-    # Detectar emoción dominante
-    dominant_emotion = max(emotions, key=emotions.get)
-
-    return {
-        "anger": emotions["anger"],
-        "disgust": emotions["disgust"],
-        "fear": emotions["fear"],
-        "joy": emotions["joy"],
-        "sadness": emotions["sadness"],
-        "dominant_emotion": dominant_emotion
+    
+    data = {
+        "raw_document": {
+            "text": text_to_analyse
+        }
     }
+    
+    response = requests.post(url, json=data, headers=headers)
+    
+    return response.json()
+    
+
+# Prueba
+print(emotion_detector("I am happy"))
